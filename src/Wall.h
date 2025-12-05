@@ -4,8 +4,7 @@
 class Wall
 {
     public:
-        Wall(long x, long y, long w, long h);
-        void setCamera(Camera* camera);
+        Wall(Camera* camera, long x, long y, long w, long h);
         void draw();
 
     private:

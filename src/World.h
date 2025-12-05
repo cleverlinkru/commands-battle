@@ -9,10 +9,9 @@
 class World
 {
     public:
-        void setCamera(Camera* camera);
-        void setMap(Map* map);
-        void addWall(Wall* wall);
-        void addUnit(Unit* unit);
+        World(Camera* camera, int mapW, int mapH);
+        void addWall(long x, long y, long w, long h);
+        void addUnit(long x, long y, int r, long dirX, long dirY, int com);
         void input(InputEvent* event);
         void update();
         void draw();

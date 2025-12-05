@@ -6,8 +6,7 @@
 class Map
 {
     public:
-        Map(int w, int h);
-        void setCamera(Camera* camera);
+        Map(Camera* camera, int w, int h);
         void draw();
 
     private:

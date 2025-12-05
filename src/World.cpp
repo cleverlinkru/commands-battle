@@ -1,31 +1,19 @@
 #include "World.h"
 
-void World::setCamera(Camera* camera)
+World::World(Camera* camera, int mapW, int mapH)
 {
     this->camera = camera;
-
-    if (this->map != nullptr) {
-        this->map->setCamera(camera);
-    }
-
-    for (Wall* wall : walls) {
-        wall->setCamera(camera);
-    }
+    this->map = new Map(camera, mapW, mapH);
 }
 
-void World::setMap(Map* map)
+void World::addWall(long x, long y, long w, long h)
 {
-    this->map = map;
+    this->walls.push_back(new Wall(camera, x, y, w, h));
 }
 
-void World::addWall(Wall* wall)
+void World::addUnit(long x, long y, int r, long dirX, long dirY, int com)
 {
-    this->walls.push_back(wall);
-}
-
-void World::addUnit(Unit* unit)
-{
-    this->units.push_back(unit);
+    this->units.push_back(new Unit(camera, x, y, r, dirX, dirY, com));
 }
 
 void World::input(InputEvent* event)
@@ -46,5 +34,7 @@ void World::draw()
         wall->draw();
     }
 
-
+    for (Unit* unit : units) {
+        unit->draw();
+    }
 }

@@ -4,8 +4,7 @@
 class Unit
 {
     public:
-        Unit(long x, long y, int r, long dirX, long dirY, int com);
-        void setCamera(Camera* camera);
+        Unit(Camera* camera, long x, long y, int r, long dirX, long dirY, int com);
         void draw();
 
     private:

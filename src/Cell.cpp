@@ -1,14 +1,10 @@
 #include "Cell.h"
 
-Cell::Cell(long x, long y)
-{
-    this->x = x;
-    this->y = y;
-}
-
-void Cell::setCamera(Camera* camera)
+Cell::Cell(Camera* camera, long x, long y)
 {
     this->camera = camera;
+    this->x = x;
+    this->y = y;
 }
 
 void Cell::draw(long mapW, long mapH)

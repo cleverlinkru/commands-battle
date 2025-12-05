@@ -1,16 +1,12 @@
 #include "Wall.h"
 
-Wall::Wall(long x, long y, long w, long h)
+Wall::Wall(Camera* camera, long x, long y, long w, long h)
 {
+    this->camera = camera;
     this->x = x;
     this->y = y;
     this->w = w;
     this->h = h;
-}
-
-void Wall::setCamera(Camera* camera)
-{
-    this->camera = camera;
 }
 
 void Wall::draw()

@@ -6,8 +6,7 @@ class Camera;
 class Cell
 {
     public:
-        Cell(long x, long y);
-        void setCamera(Camera* camera);
+        Cell(Camera* camera, long x, long y);
         void draw(long mapW, long mapH);
 
         static const int w = 50;

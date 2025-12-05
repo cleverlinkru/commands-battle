@@ -12,11 +12,10 @@ Engine::Engine()
         sf::Style::Resize + sf::Style::Close
     );
 
-    WorldGenerator* wg = new WorldGenerator();
-    world = wg->create();
-
     Camera* camera = new Camera(0, 0, resolution.x, resolution.y, window);
-    world->setCamera(camera);
+
+    WorldGenerator* wg = new WorldGenerator();
+    world = wg->create(camera);
 }
 
 void Engine::run()
