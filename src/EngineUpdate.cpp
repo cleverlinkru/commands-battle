@@ -2,4 +2,6 @@
 
 void Engine::update()
 {
+    world->update();
+    camera->update();
 }

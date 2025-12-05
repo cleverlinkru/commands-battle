@@ -1,7 +1,10 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
-using namespace sf;
+#include <chrono>
+#include "World.h"
+#include "WorldGenerator.h"
+#include "Camera.h"
+#include "Control.h"
 
 class Engine
 {
@@ -11,8 +14,12 @@ class Engine
         void run();
 
     private:
-        RenderWindow window;
+        sf::RenderWindow window;
+        World* world;
+        Camera* camera;
+        Control* control;
 
+        void delay();
         void input();
         void update();
         void draw();
