@@ -1,18 +1,44 @@
 #include "World.h"
 
-World::World(Map* map, std::vector<Wall> wallList, std::vector<Unit> unitList)
+void World::setCamera(Camera* camera)
+{
+    this->camera = camera;
+
+    if (this->map != nullptr) {
+        this->map->setCamera(camera);
+    }
+}
+
+void World::setMap(Map* map)
 {
     this->map = map;
-    this->wallList = wallList;
-    this->unitList = unitList;
+
+    if (this->camera != nullptr) {
+        this->map->setCamera(this->camera);
+    }
 }
 
-void World::update()
+void World::addWall(Wall* wall)
+{
+    this->walls.push_back(wall);
+}
+
+void World::addUnit(Unit* unit)
+{
+    this->units.push_back(unit);
+}
+
+void World::input(InputEvent* event)
+{
+    camera->input(event);
+}
+
+void World::World::update()
 {
 
 }
 
-Map* World::getMap()
+void World::draw()
 {
-    return this->map;
+    map->draw();
 }

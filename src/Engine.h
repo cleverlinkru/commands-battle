@@ -4,7 +4,7 @@
 #include "World.h"
 #include "WorldGenerator.h"
 #include "Camera.h"
-#include "Control.h"
+#include "InputEvent.h"
 
 class Engine
 {
@@ -14,10 +14,8 @@ class Engine
         void run();
 
     private:
-        sf::RenderWindow window;
+        sf::RenderWindow* window;
         World* world;
-        Camera* camera;
-        Control* control;
 
         void delay();
         void input();

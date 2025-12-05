@@ -6,23 +6,22 @@ Engine::Engine()
     resolution.x = sf::VideoMode::getDesktopMode().width;
     resolution.y = sf::VideoMode::getDesktopMode().height;
 
-    window.create(
+    window = new sf::RenderWindow(
         sf::VideoMode(resolution.x, resolution.y),
         "Command battle",
         sf::Style::Resize + sf::Style::Close
     );
 
     WorldGenerator* wg = new WorldGenerator();
-    World* world = wg->create();
+    world = wg->create();
 
-    camera = new Camera(0, 0, resolution.x, resolution.y, world, &window);
-
-    control = new Control(camera);
+    Camera* camera = new Camera(0, 0, resolution.x, resolution.y, window);
+    world->setCamera(camera);
 }
 
 void Engine::run()
 {
-    while (window.isOpen())
+    while (window->isOpen())
     {
         delay();
         input();

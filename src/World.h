@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include "InputEvent.h"
+#include "Camera.h"
 #include "Map.h"
 #include "Wall.h"
 #include "Unit.h"
@@ -7,12 +9,17 @@
 class World
 {
     public:
-        World(Map* map, std::vector<Wall> wallList, std::vector<Unit> unitList);
+        void setCamera(Camera* camera);
+        void setMap(Map* map);
+        void addWall(Wall* wall);
+        void addUnit(Unit* unit);
+        void input(InputEvent* event);
         void update();
-        Map* getMap();
+        void draw();
 
     private:
+        Camera* camera;
         Map* map;
-        std::vector<Wall> wallList;
-        std::vector<Unit> unitList;
+        std::vector<Wall*> walls;
+        std::vector<Unit*> units;
 };

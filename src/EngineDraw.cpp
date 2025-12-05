@@ -2,9 +2,9 @@
 
 void Engine::draw()
 {
-    window.clear(sf::Color::Black);
+    window->clear(sf::Color::Black);
 
-    camera->draw();
+    world->draw();
 
-    window.display();
+    window->display();
 }

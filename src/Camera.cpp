@@ -1,51 +1,73 @@
 #include "Camera.h"
 
-Camera::Camera(long startX, long startY, int w, int h, World* world, sf::RenderWindow* window)
+Camera::Camera(long startX, long startY, int w, int h, sf::RenderWindow* window)
 {
-    this->x = startX;
-    this->y = startY;
-    this->w = w;
-    this->h = h;
-    this->world = world;
+    this->_x = startX;
+    this->_y = startY;
+    this->_w = w;
+    this->_h = h;
     this->window = window;
 }
 
-void Camera::update()
+void Camera::input(InputEvent* event)
 {
+    if (event->type() == InputEvent::MousePressedRight) {
+        isMoving = true;
+        movingX = event->x();
+        movingY = event->y();
+    }
+
+    if (event->type() == InputEvent::MouseReleasedRight) {
+        isMoving = false;
+        movingX = event->x();
+        movingY = event->y();
+    }
+
+    if (event->type() == InputEvent::MouseMoved) {
+        if (isMoving) {
+            move(movingX - event->x(), movingY - event->y());
+        }
+        movingX = event->x();
+        movingY = event->y();
+    }
 }
 
-void Camera::draw()
+int Camera::x()
 {
-    Map* map = this->world->getMap();
+    return this->_x;
+}
 
-    long cellFromX = this->x / map->cellW();
-    long cellFromY = this->y / map->cellH();
-    long cellToX = (this->x + this->w) / map->cellW();
-    long cellToY = (this->y + this->h) / map->cellH();
+int Camera::y()
+{
+    return this->_y;
+}
 
-    for (long y = cellFromY; y <= cellToY; y++) {
-        for (long x = cellFromX; x <= cellToX; x++) {
-            if (x < 0 || y < 0 || x >= map->w() || y >= map->h()) {
-                continue;
-            }
+int Camera::w()
+{
+    return this->_w;
+}
 
-            int posX = x * map->cellW() - this->x;
-            int posY = y * map->cellH() - this->y;
+int Camera::h()
+{
+    return this->_h;
+}
 
-            sf::RectangleShape rectangle;
-            rectangle.setSize(sf::Vector2f(map->cellW(), map->cellH()));
-            rectangle.setFillColor(sf::Color(50,50,50,255));
-            rectangle.setOutlineColor(sf::Color(60,60,60,255));
-            rectangle.setOutlineThickness(3);
-            rectangle.setPosition(posX, posY);
+void Camera::drawCell(long x, long y)
+{
+    int posX = x - _x;
+    int posY = y - _y;
 
-            window->draw(rectangle);
-        }
-    }
+    sf::RectangleShape rectangle;
+    rectangle.setSize(sf::Vector2f(Cell::w, Cell::h));
+    rectangle.setFillColor(sf::Color(50,50,50,255));
+    rectangle.setOutlineColor(sf::Color(60,60,60,255));
+    rectangle.setOutlineThickness(3);
+    rectangle.setPosition(posX, posY);
+    window->draw(rectangle);
 }
 
 void Camera::move(int x, int y)
 {
-    this->x += x;
-    this->y += y;
+    this->_x += x;
+    this->_y += y;
 }

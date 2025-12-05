@@ -3,8 +3,8 @@
 class Unit
 {
     public:
-        
+
 
     private:
-        bool isLive = true;
+        bool isAlive = true;
 };

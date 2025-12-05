@@ -8,27 +8,44 @@ Map::Map(int w, int h)
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
             Cell* cell = new Cell(x, y);
-            cellList.push_back(cell);
+            _cells.push_back(cell);
         }
     }
 }
 
-int Map::w()
+void Map::setCamera(Camera* camera)
 {
-    return this->_w;
+    this->camera = camera;
+
+    for (int y = 0; y < _h; y++) {
+        for (int x = 0; x < _w; x++) {
+            Cell* cell = getCell(x, y);
+            cell->setCamera(camera);
+        }
+    }
 }
 
-int Map::h()
+void Map::draw()
 {
-    return this->_h;
+    int cellFromX = camera->x() / Cell::w;
+    int cellFromY = camera->y() / Cell::h;
+    int cellToX = (camera->x() + camera->w()) / Cell::w;
+    int cellToY = (camera->y() + camera->h()) / Cell::h;
+
+    for (int y = cellFromY; y <= cellToY; y++) {
+        for (int x = cellFromX; x <= cellToX; x++) {
+            if (x < 0 || y < 0 || x >= _w || y >= _h) {
+                continue;
+            }
+
+            Cell* cell = getCell(x, y);
+
+            cell->draw();
+        }
+    }
 }
 
-int Map::cellW()
+Cell* Map::getCell(int x, int y)
 {
-    return this->_cellW;
-}
-
-int Map::cellH()
-{
-    return this->_cellH;
+    return _cells[y * _w + x];
 }
