@@ -80,6 +80,37 @@ void Camera::drawWall(long x, long y, long w, long h)
     window->draw(rectangle);
 }
 
+void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com)
+{
+    int posX = x - _x;
+    int posY = y - _y;
+
+    sf::CircleShape circle(r);
+    if (com == 1) {
+        circle.setFillColor(sf::Color::Red);
+    } else if (com = 2) {
+        circle.setFillColor(sf::Color::Blue);
+    }
+    circle.setPosition(posX - r, posY - r);
+    window->draw(circle);
+
+    int dirPosX = dirX - _x;
+    int dirPosY = dirY - _y;
+
+    int s = std::sqrt(std::pow(dirPosX-posX, 2) + std::pow(dirPosY-posY, 2));
+    int lx = (dirX - posX) * r / s + posX;
+    int ly = (dirY - posY) * r / s + posY;
+
+    sf::Vertex line[] = {
+        sf::Vertex(sf::Vector2f(posX, posY), sf::Color::Black),
+        sf::Vertex(sf::Vector2f(lx, ly), sf::Color::Black),
+    };
+    sf::VertexArray lineArray(sf::Lines, 2);
+    lineArray[0] = line[0];
+    lineArray[1] = line[1];
+    window->draw(lineArray);
+}
+
 void Camera::move(int x, int y)
 {
     this->_x += x;

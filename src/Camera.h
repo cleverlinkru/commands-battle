@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <cmath>
 #include "Cell.h"
 #include "InputEvent.h"
 
@@ -14,6 +15,7 @@ class Camera
         int h();
         void drawCell(long x, long y);
         void drawWall(long x, long y, long w, long h);
+        void drawUnit(long x, long y, int r, long dirX, long dirY, int com);
 
     private:
         long _x, _y, _w, _h;
