@@ -13,6 +13,7 @@ class Camera
         int w();
         int h();
         void drawCell(long x, long y);
+        void drawWall(long x, long y, long w, long h);
 
     private:
         long _x, _y, _w, _h;

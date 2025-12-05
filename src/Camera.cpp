@@ -66,6 +66,20 @@ void Camera::drawCell(long x, long y)
     window->draw(rectangle);
 }
 
+void Camera::drawWall(long x, long y, long w, long h)
+{
+    int posX = x - _x;
+    int posY = y - _y;
+
+    sf::RectangleShape rectangle;
+    rectangle.setSize(sf::Vector2f(w, h));
+    rectangle.setFillColor(sf::Color(46,27,27,255));
+    rectangle.setOutlineColor(sf::Color(0,0,0,255));
+    rectangle.setOutlineThickness(3);
+    rectangle.setPosition(posX, posY);
+    window->draw(rectangle);
+}
+
 void Camera::move(int x, int y)
 {
     this->_x += x;

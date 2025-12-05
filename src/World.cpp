@@ -7,15 +7,15 @@ void World::setCamera(Camera* camera)
     if (this->map != nullptr) {
         this->map->setCamera(camera);
     }
+
+    for (Wall* wall : walls) {
+        wall->setCamera(camera);
+    }
 }
 
 void World::setMap(Map* map)
 {
     this->map = map;
-
-    if (this->camera != nullptr) {
-        this->map->setCamera(this->camera);
-    }
 }
 
 void World::addWall(Wall* wall)
@@ -41,4 +41,10 @@ void World::World::update()
 void World::draw()
 {
     map->draw();
+
+    for (Wall* wall : walls) {
+        wall->draw();
+    }
+
+
 }

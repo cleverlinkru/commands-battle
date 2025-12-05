@@ -27,20 +27,10 @@ void Map::setCamera(Camera* camera)
 
 void Map::draw()
 {
-    int cellFromX = camera->x() / Cell::w;
-    int cellFromY = camera->y() / Cell::h;
-    int cellToX = (camera->x() + camera->w()) / Cell::w;
-    int cellToY = (camera->y() + camera->h()) / Cell::h;
-
-    for (int y = cellFromY; y <= cellToY; y++) {
-        for (int x = cellFromX; x <= cellToX; x++) {
-            if (x < 0 || y < 0 || x >= _w || y >= _h) {
-                continue;
-            }
-
+    for (int y = 0; y < _h; y++) {
+        for (int x = 0; x < _w; x++) {
             Cell* cell = getCell(x, y);
-
-            cell->draw();
+            cell->draw(_w, _h);
         }
     }
 }
