@@ -11,6 +11,10 @@ Unit::Unit(Camera* camera, long x, long y, int r, long dirX, long dirY, int com)
     this->com = com;
 }
 
+void Unit::input(InputEvent* event)
+{
+}
+
 void Unit::draw()
 {
     if (

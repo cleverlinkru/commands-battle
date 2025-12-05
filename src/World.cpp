@@ -19,6 +19,10 @@ void World::addUnit(long x, long y, int r, long dirX, long dirY, int com)
 void World::input(InputEvent* event)
 {
     camera->input(event);
+
+    for (Unit* unit : units) {
+        unit->input(event);
+    }
 }
 
 void World::World::update()

@@ -98,8 +98,8 @@ void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com)
     int dirPosY = dirY - _y;
 
     int s = std::sqrt(std::pow(dirPosX-posX, 2) + std::pow(dirPosY-posY, 2));
-    int lx = (dirX - posX) * r / s + posX;
-    int ly = (dirY - posY) * r / s + posY;
+    int lx = (dirPosX - posX) * r / s + posX;
+    int ly = (dirPosY - posY) * r / s + posY;
 
     sf::Vertex line[] = {
         sf::Vertex(sf::Vector2f(posX, posY), sf::Color::Black),
