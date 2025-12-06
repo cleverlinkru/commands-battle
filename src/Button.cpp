@@ -82,7 +82,7 @@ void Button::drawBtn()
     } else if (icon == 2) {
         drawPlay();
     } else if (icon == 3) {
-        drawDest();
+        drawDir();
     } else if (icon == 4) {
         drawMove();
     } else if (icon == 5) {
@@ -135,7 +135,7 @@ void Button::drawPlay()
     window->draw(rectangle);
 }
 
-void Button::drawDest()
+void Button::drawDir()
 {
     sf::RectangleShape rectangle;
     rectangle.setFillColor(sf::Color::Black);
@@ -164,7 +164,7 @@ void Button::drawFire()
 {
     sf::CircleShape circle;
     circle.setRadius(w / 2 - 4);
-    circle.setFillColor(sf::Color(0, 0, 0, 0));
+    circle.setFillColor(sf::Color::Transparent);
     circle.setOutlineThickness(3);
     circle.setOutlineColor(sf::Color::Black);
     circle.setPosition(x + 4, y + 4);

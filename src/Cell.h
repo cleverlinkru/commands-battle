@@ -7,7 +7,7 @@ class Cell
 {
     public:
         Cell(Camera* camera, long x, long y);
-        void draw(long mapW, long mapH);
+        void draw();
 
         static const int w = 50;
         static const int h = 50;

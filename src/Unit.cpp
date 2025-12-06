@@ -13,6 +13,10 @@ Unit::Unit(Camera* camera, long x, long y, int r, long dirX, long dirY, int com)
 
 void Unit::input(InputEvent* event)
 {
+    if (event->type() == InputEvent::MousePressedLeft) {
+        dirX = event->x() + camera->x();
+        dirY = event->y() + camera->y();
+    }
 }
 
 void Unit::draw()

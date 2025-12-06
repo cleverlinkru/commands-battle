@@ -6,6 +6,7 @@ void Engine::draw()
 
     world->draw();
     panel->draw();
+    cursor->draw();
 
     window->display();
 }

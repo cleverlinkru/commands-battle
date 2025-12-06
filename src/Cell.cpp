@@ -7,7 +7,7 @@ Cell::Cell(Camera* camera, long x, long y)
     this->y = y;
 }
 
-void Cell::draw(long mapW, long mapH)
+void Cell::draw()
 {
     if (
         camera->x() > (x + 1) * w ||

@@ -14,7 +14,7 @@ class Panel
         Button* btnPause;
         Button* btnStep;
         Button* btnPlay;
-        Button* btnDest;
+        Button* btnDir;
         Button* btnMove;
         Button* btnFire;
         void drawBack();

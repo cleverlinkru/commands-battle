@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "InputEvent.h"
 #include "Panel.h"
+#include "Cursor.h"
 
 class Engine
 {
@@ -17,10 +18,12 @@ class Engine
     private:
         sf::RenderWindow* window;
         Panel* panel;
+        Cursor* cursor;
         World* world;
 
         void delay();
         void input();
         void update();
         void draw();
+        void handleEvent(InputEvent* event);
 };

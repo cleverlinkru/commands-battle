@@ -12,7 +12,11 @@ Engine::Engine()
         sf::Style::Resize + sf::Style::Close
     );
 
+    window->setMouseCursorVisible(false);
+
     panel = new Panel(window);
+
+    cursor = new Cursor(window);
 
     Camera* camera = new Camera(0, 0, resolution.x, resolution.y, window);
 

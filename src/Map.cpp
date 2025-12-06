@@ -20,7 +20,7 @@ void Map::draw()
     for (int y = 0; y < _h; y++) {
         for (int x = 0; x < _w; x++) {
             Cell* cell = getCell(x, y);
-            cell->draw(_w, _h);
+            cell->draw();
         }
     }
 }

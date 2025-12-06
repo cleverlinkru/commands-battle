@@ -6,7 +6,7 @@ Panel::Panel(sf::RenderWindow* window)
     this->btnPause = createButton(0);
     this->btnStep = createButton(1);
     this->btnPlay = createButton(2);
-    this->btnDest = createButton(3);
+    this->btnDir = createButton(3);
     this->btnMove = createButton(4);
     this->btnFire = createButton(5);
 }
@@ -24,8 +24,8 @@ InputEvent* Panel::input(InputEvent* event)
     _event = btnPlay->input(event);
     if (_event->type() != 0) return new InputEvent(InputEvent::ButtonPlay, 0, 0);
 
-    _event = btnDest->input(event);
-    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonDest, 0, 0);
+    _event = btnDir->input(event);
+    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonDir, 0, 0);
 
     _event = btnMove->input(event);
     if (_event->type() != 0) return new InputEvent(InputEvent::ButtonMove, 0, 0);
@@ -42,7 +42,7 @@ void Panel::draw()
     btnPause->draw();
     btnStep->draw();
     btnPlay->draw();
-    btnDest->draw();
+    btnDir->draw();
     btnMove->draw();
     btnFire->draw();
 }

@@ -32,7 +32,7 @@ class Button
         void drawPause();
         void drawStep();
         void drawPlay();
-        void drawDest();
+        void drawDir();
         void drawMove();
         void drawFire();
 };
