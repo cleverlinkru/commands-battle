@@ -8,6 +8,10 @@ class InputEvent
         static const int MouseReleasedLeft = 3;
         static const int MouseReleasedRight = 4;
         static const int MouseMoved = 5;
+        static const int ButtonPanel = 6;
+        static const int ButtonPause = 7;
+        static const int ButtonStep = 8;
+        static const int ButtonPlay = 9;
 
         InputEvent(int type, int x, int y);
         int type();

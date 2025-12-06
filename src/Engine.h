@@ -5,6 +5,7 @@
 #include "WorldGenerator.h"
 #include "Camera.h"
 #include "InputEvent.h"
+#include "Panel.h"
 
 class Engine
 {
@@ -15,6 +16,7 @@ class Engine
 
     private:
         sf::RenderWindow* window;
+        Panel* panel;
         World* world;
 
         void delay();

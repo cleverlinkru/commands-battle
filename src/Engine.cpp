@@ -12,6 +12,8 @@ Engine::Engine()
         sf::Style::Resize + sf::Style::Close
     );
 
+    panel = new Panel(window);
+
     Camera* camera = new Camera(0, 0, resolution.x, resolution.y, window);
 
     WorldGenerator* wg = new WorldGenerator();
