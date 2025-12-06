@@ -12,6 +12,9 @@ class InputEvent
         static const int ButtonPause = 7;
         static const int ButtonStep = 8;
         static const int ButtonPlay = 9;
+        static const int ButtonDest = 10;
+        static const int ButtonMove = 11;
+        static const int ButtonFire = 12;
 
         InputEvent(int type, int x, int y);
         int type();

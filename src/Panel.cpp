@@ -16,22 +16,22 @@ InputEvent* Panel::input(InputEvent* event)
     InputEvent* _event;
 
     _event = btnPause->input(event);
-    if (_event->type() != 0) return _event;
+    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonPause, 0, 0);
 
     _event = btnStep->input(event);
-    if (_event->type() != 0) return _event;
+    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonStep, 0, 0);
 
     _event = btnPlay->input(event);
-    if (_event->type() != 0) return _event;
+    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonPlay, 0, 0);
 
     _event = btnDest->input(event);
-    if (_event->type() != 0) return _event;
+    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonDest, 0, 0);
 
     _event = btnMove->input(event);
-    if (_event->type() != 0) return _event;
+    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonMove, 0, 0);
 
     _event = btnFire->input(event);
-    if (_event->type() != 0) return _event;
+    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonFire, 0, 0);
 
     return event;
 }
