@@ -1,6 +1,7 @@
 #include "Unit.h"
 
 Unit::Unit(
+    World* world,
     Camera* camera,
     long x,
     long y,
@@ -11,6 +12,7 @@ Unit::Unit(
     int viewingAngle
 )
 {
+    this->world = world;
     this->camera = camera;
     this->x = x;
     this->y = y;
@@ -32,11 +34,9 @@ void Unit::input(InputEvent* event)
         int s = sqrt(pow(event->x() + camera->x() - x, 2) + pow(event->y() + camera->y() - y, 2));
         bool inside = s < r;
         if (inside) {
-            isSelected = true;
-            viewingZone->show();
+            handlerClickInside();
         } else {
-            isSelected = false;
-            viewingZone->hide();
+            handlerClickOutside();
         }
     }
 }
@@ -47,10 +47,38 @@ void Unit::draw()
         camera->x() > x + r ||
         camera->y() > y + r ||
         camera->x() + camera->w() < x - r ||
-        camera->y() + camera->h() < y - r
+        camera->y() + camera->h() < y - r ||
+        (
+            world->getCommands()->current() > 0 &&
+            world->getCommands()->current() != commandIndex
+        )
     ) {
         return;
     }
 
+    generateVisibleMasks();
+
     camera->drawUnit(x, y, r, directionX, directionY, commandIndex, isSelected);
+}
+
+void Unit::handlerClickInside()
+{
+    if (world->getCommands()->current() > 0 && world->getCommands()->current() != commandIndex) {
+        return;
+    }
+
+    isSelected = true;
+    viewingZone->show();
+    world->getCommands()->set(commandIndex);
+}
+
+void Unit::handlerClickOutside()
+{
+    isSelected = false;
+    viewingZone->hide();
+}
+
+void Unit::generateVisibleMasks()
+{
+//    std::vector<bool> vMask = viewingZone->generateVisibleMask(1000 - 25, 500 - 25, 1000 + 25, 500 + 25);
 }

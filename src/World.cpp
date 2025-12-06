@@ -1,9 +1,10 @@
 #include "World.h"
 
-World::World(Camera* camera, int mapW, int mapH)
+World::World(Camera* camera, int mapW, int mapH, Commands* commands)
 {
     this->camera = camera;
     this->map = new Map(camera, mapW, mapH);
+    this->commands = commands;
 }
 
 void World::addWall(long x, long y, long w, long h)
@@ -13,7 +14,7 @@ void World::addWall(long x, long y, long w, long h)
 
 void World::addUnit(long x, long y, int r, long directionX, long directionY, int commandIndex, int viewingAngle)
 {
-    this->units.push_back(new Unit(camera, x, y, r, directionX, directionY, commandIndex, viewingAngle));
+    this->units.push_back(new Unit(this, camera, x, y, r, directionX, directionY, commandIndex, viewingAngle));
 }
 
 void World::input(InputEvent* event)
@@ -45,4 +46,9 @@ void World::draw()
     for (Unit* unit : units) {
         unit->getViewingZone()->draw();
     }
+}
+
+Commands* World::getCommands()
+{
+    return this->commands;
 }

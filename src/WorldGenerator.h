@@ -3,6 +3,7 @@
 #include "Camera.h"
 #include "Wall.h"
 #include "Unit.h"
+#include "Commands.h"
 
 class WorldGenerator
 {

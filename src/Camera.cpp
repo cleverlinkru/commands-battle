@@ -85,16 +85,22 @@ void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool
     int posX = x - _x;
     int posY = y - _y;
 
+    sf::Color clBack;
+    sf::Color clLine;
+    if (com == 1) {
+        clBack = sf::Color::Red;
+        clLine = sf::Color::Black;
+    } else if (com == 2) {
+        clBack = sf::Color::Blue;
+        clLine = sf::Color::White;
+    }
+
     sf::RenderTexture renderTexture;
     renderTexture.create(r * 2, r * 2);
     renderTexture.clear(sf::Color::Transparent);
 
     sf::CircleShape circle(r);
-    if (com == 1) {
-        circle.setFillColor(sf::Color::Red);
-    } else if (com = 2) {
-        circle.setFillColor(sf::Color::Blue);
-    }
+    circle.setFillColor(clBack);
     circle.setPosition(0, 0);
     renderTexture.draw(circle);
 
@@ -112,8 +118,8 @@ void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool
     int lx = (dirX - x) * r / s;
     int ly = (dirY - y) * r / s;
     sf::Vertex line[] = {
-        sf::Vertex(sf::Vector2f(r, r), sf::Color::Black),
-        sf::Vertex(sf::Vector2f(r + lx, r + ly), sf::Color::Black),
+        sf::Vertex(sf::Vector2f(r, r), clLine),
+        sf::Vertex(sf::Vector2f(r + lx, r + ly), clLine),
     };
     sf::VertexArray lineArray(sf::Lines, 2);
     lineArray[0] = line[0];
@@ -126,32 +132,13 @@ void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool
     window->draw(sprite);
 }
 
-void Camera::drawViewingZone(long x, long y, int angle, long directionX, long directionY, long len)
+void Camera::drawViewingZone(long x1, long y1, long x2, long y2, long x3, long y3)
 {
-    long vCenterX = directionX - x;
-    long vCenterY = directionY - y;
-    long sCenter = sqrt(pow(vCenterX, 2) + pow(vCenterY, 2));
-    long sDestSide = sCenter * std::tan(6.28 * angle / 360);
-    vCenterX = vCenterX * len / sCenter;
-    vCenterY = vCenterY * len / sCenter;
-    long vRightX = vCenterY;
-    long vRightY = -vCenterX;
-    long vLeftX = -vCenterY;
-    long vLeftY = vCenterX;
-    vRightX = vRightX * sDestSide / sCenter;
-    vRightY = vRightY * sDestSide / sCenter;
-    vLeftX = vLeftX * sDestSide / sCenter;
-    vLeftY = vLeftY * sDestSide / sCenter;
-    vRightX += vCenterX + x;
-    vRightY += vCenterY + y;
-    vLeftX += vCenterX + x;
-    vLeftY += vCenterY + y;
-
     sf::ConvexShape triangle;
     triangle.setPointCount(3);
-    triangle.setPoint(0, sf::Vector2f(x - _x, y - _y));
-    triangle.setPoint(1, sf::Vector2f(vRightX - _x, vRightY - _y));
-    triangle.setPoint(2, sf::Vector2f(vLeftX - _x, vLeftY - _y));
+    triangle.setPoint(0, sf::Vector2f(x1 - _x, y1 - _y));
+    triangle.setPoint(1, sf::Vector2f(x2 - _x, y2 - _y));
+    triangle.setPoint(2, sf::Vector2f(x3 - _x, y3 - _y));
     triangle.setFillColor(sf::Color(0, 255, 0, 100));
     window->draw(triangle);
 }
