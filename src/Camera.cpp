@@ -80,7 +80,7 @@ void Camera::drawWall(long x, long y, long w, long h)
     window->draw(rectangle);
 }
 
-void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com)
+void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool isSelected)
 {
     int posX = x - _x;
     int posY = y - _y;
@@ -98,6 +98,16 @@ void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com)
     circle.setPosition(0, 0);
     renderTexture.draw(circle);
 
+    if (isSelected) {
+        sf::CircleShape circle2;
+        circle2.setRadius(r - 3);
+        circle2.setFillColor(sf::Color::Transparent);
+        circle2.setOutlineColor(sf::Color::Yellow);
+        circle2.setOutlineThickness(3);
+        circle2.setPosition(3, 3);
+        renderTexture.draw(circle2);
+    }
+
     int s = std::sqrt(std::pow(dirX - x, 2) + std::pow(dirY - y, 2));
     int lx = (dirX - x) * r / s;
     int ly = (dirY - y) * r / s;
@@ -114,6 +124,36 @@ void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com)
     sf::Sprite sprite(renderTexture.getTexture());
     sprite.setPosition(posX - r, posY - r);
     window->draw(sprite);
+}
+
+void Camera::drawViewingZone(long x, long y, int angle, long directionX, long directionY, long len)
+{
+    long vCenterX = directionX - x;
+    long vCenterY = directionY - y;
+    long sCenter = sqrt(pow(vCenterX, 2) + pow(vCenterY, 2));
+    long sDestSide = sCenter * std::tan(6.28 * angle / 360);
+    vCenterX = vCenterX * len / sCenter;
+    vCenterY = vCenterY * len / sCenter;
+    long vRightX = vCenterY;
+    long vRightY = -vCenterX;
+    long vLeftX = -vCenterY;
+    long vLeftY = vCenterX;
+    vRightX = vRightX * sDestSide / sCenter;
+    vRightY = vRightY * sDestSide / sCenter;
+    vLeftX = vLeftX * sDestSide / sCenter;
+    vLeftY = vLeftY * sDestSide / sCenter;
+    vRightX += vCenterX + x;
+    vRightY += vCenterY + y;
+    vLeftX += vCenterX + x;
+    vLeftY += vCenterY + y;
+
+    sf::ConvexShape triangle;
+    triangle.setPointCount(3);
+    triangle.setPoint(0, sf::Vector2f(x - _x, y - _y));
+    triangle.setPoint(1, sf::Vector2f(vRightX - _x, vRightY - _y));
+    triangle.setPoint(2, sf::Vector2f(vLeftX - _x, vLeftY - _y));
+    triangle.setFillColor(sf::Color(0, 255, 0, 100));
+    window->draw(triangle);
 }
 
 void Camera::move(int x, int y)
