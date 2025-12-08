@@ -12,9 +12,19 @@ void World::addWall(long x, long y, long w, long h)
     this->walls.push_back(new Wall(camera, x, y, w, h));
 }
 
+std::vector<Wall*> World::getWalls()
+{
+    return walls;
+}
+
 void World::addUnit(long x, long y, int r, long directionX, long directionY, int commandIndex, int viewingAngle)
 {
     this->units.push_back(new Unit(this, camera, x, y, r, directionX, directionY, commandIndex, viewingAngle));
+}
+
+std::vector<Unit*> World::getUnits()
+{
+    return units;
 }
 
 void World::input(InputEvent* event)

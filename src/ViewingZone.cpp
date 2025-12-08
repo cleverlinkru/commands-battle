@@ -9,6 +9,8 @@ ViewingZone::ViewingZone(Camera* camera, long x, long y, int angle, long directi
     this->directionX = directionX;
     this->directionY = directionY;
 
+    this->math = new Math();
+
     calc();
 }
 
@@ -31,48 +33,38 @@ void ViewingZone::draw()
     camera->drawViewingZone(x, y, leftX, leftY, rightX, rightY);
 }
 
-std::vector<bool> ViewingZone::generateVisibleMask(long rx, long ry, long rw, long rh)
+std::tuple<double, double, double> ViewingZone::getAngles()
 {
-    std::vector<bool> vMask;
+    return std::make_tuple(centerAngle, leftAngle, rightAngle);
+}
 
-    return vMask;
+void ViewingZone::setPosition(long x, long y)
+{
+    this->x = x;
+    this->y = y;
+    calc();
+}
+
+void ViewingZone::setDirection(long x, long y)
+{
+    this->directionX = x;
+    this->directionY = y;
+    calc();
 }
 
 void ViewingZone::calc()
 {
     double centerX = directionX - x;
     double centerY = directionY - y;
-    double centerAngle = vectorAngle(centerX, centerY);
-    double leftAngle = centerAngle - 2 * M_PI * (double)angle / 720;
-    double rightAngle = centerAngle + 2 * M_PI * (double)angle / 720;
-    double leftLen = abs((double)len / std::cos(leftAngle));
-    double rightLen = abs((double)len / std::cos(rightAngle));
-    auto [_leftX, _leftY] = vectorPoint(leftAngle, leftLen);
-    auto [_rightX, _rightY] = vectorPoint(rightAngle, rightLen);
+    centerAngle = math->vectorAngle(centerX, centerY);
+    double sideAngle = 2 * M_PI * (double)angle / 720;
+    double sideLen = abs((double)len / std::cos(sideAngle));
+    leftAngle = math->angleDiapasoning(centerAngle - sideAngle);
+    rightAngle = math->angleDiapasoning(centerAngle + sideAngle);
+    auto [_leftX, _leftY] = math->vectorPoint(leftAngle, sideLen);
+    auto [_rightX, _rightY] = math->vectorPoint(rightAngle, sideLen);
     leftX = x + _leftX;
     leftY = y + _leftY;
     rightX = x + _rightX;
     rightY = y + _rightY;
-}
-
-double ViewingZone::vectorLength(double x, double y)
-{
-    return std::sqrt(std::pow(x, 2) + std::pow(y, 2));
-}
-
-double ViewingZone::vectorAngle(double x, double y)
-{
-    double s = vectorLength(x, y);
-    double angle = std::acos(x / s);
-    if (y < 0) {
-        angle = 2 * M_PI - angle;
-    }
-    return angle;
-}
-
-std::tuple<double, double> ViewingZone::vectorPoint(double a, double l)
-{
-    double x = l * std::cos(a);
-    double y = l * std::sin(a);
-    return std::make_tuple(x, y);
 }

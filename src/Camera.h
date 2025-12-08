@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cmath>
 #include "Cell.h"
+#include "Math.h"
 #include "InputEvent.h"
 
 class Camera
@@ -16,7 +17,7 @@ class Camera
         int h();
         void drawCell(long x, long y);
         void drawWall(long x, long y, long w, long h);
-        void drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool isSelected);
+        void drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool isSelected, std::vector<bool> visibleMask);
         void drawViewingZone(long x1, long y1, long x2, long y2, long x3, long y3);
 
     private:
@@ -25,4 +26,5 @@ class Camera
         bool isMoving = false;
         int movingX, movingY;
         void move(int x, int y);
+        Math* math;
 };

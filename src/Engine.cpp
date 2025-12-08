@@ -22,6 +22,8 @@ Engine::Engine()
 
     WorldGenerator* wg = new WorldGenerator();
     world = wg->create(camera);
+
+    visibleMaskCreator = new VisibleMaskCreator(world);
 }
 
 void Engine::run()

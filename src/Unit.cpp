@@ -23,9 +23,43 @@ Unit::Unit(
     this->viewingZone = new ViewingZone(camera, x, y, viewingAngle, directionX, directionY);
 }
 
+std::tuple<long, long, int, long, long> Unit::getBaseParams()
+{
+    return std::make_tuple(x, y, r, directionX, directionY);
+}
+
+int Unit::getCommandIndex()
+{
+    return commandIndex;
+}
+
 ViewingZone* Unit::getViewingZone()
 {
     return this->viewingZone;
+}
+
+void Unit::setPosition(long x, long y)
+{
+    this->x = x;
+    this->y = y;
+    this->viewingZone->setPosition(x, y);
+}
+
+void Unit::setDirection(long x, long y)
+{
+    this->directionX = x;
+    this->directionY = y;
+    this->viewingZone->setDirection(x, y);
+}
+
+void Unit::setVisibleMask(std::vector<bool> visibleMask)
+{
+    this->visibleMask = visibleMask;
+}
+
+std::vector<bool> Unit::getVisibleMask()
+{
+    return this->visibleMask;
 }
 
 void Unit::input(InputEvent* event)
@@ -36,9 +70,13 @@ void Unit::input(InputEvent* event)
         if (inside) {
             handlerClickInside();
         } else {
+setDirection(camera->x() + event->x(), camera->y() + event->y());
             handlerClickOutside();
         }
     }
+if (event->type() == InputEvent::MousePressedRight && isSelected) {
+setPosition(camera->x() + event->x(), camera->y() + event->y());
+}
 }
 
 void Unit::draw()
@@ -47,18 +85,12 @@ void Unit::draw()
         camera->x() > x + r ||
         camera->y() > y + r ||
         camera->x() + camera->w() < x - r ||
-        camera->y() + camera->h() < y - r ||
-        (
-            world->getCommands()->current() > 0 &&
-            world->getCommands()->current() != commandIndex
-        )
+        camera->y() + camera->h() < y - r
     ) {
         return;
     }
 
-    generateVisibleMasks();
-
-    camera->drawUnit(x, y, r, directionX, directionY, commandIndex, isSelected);
+    camera->drawUnit(x, y, r, directionX, directionY, commandIndex, isSelected, visibleMask);
 }
 
 void Unit::handlerClickInside()
@@ -76,9 +108,4 @@ void Unit::handlerClickOutside()
 {
     isSelected = false;
     viewingZone->hide();
-}
-
-void Unit::generateVisibleMasks()
-{
-//    std::vector<bool> vMask = viewingZone->generateVisibleMask(1000 - 25, 500 - 25, 1000 + 25, 500 + 25);
 }

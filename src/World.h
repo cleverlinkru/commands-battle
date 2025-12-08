@@ -14,7 +14,9 @@ class World
     public:
         World(Camera* camera, int mapW, int mapH, Commands* commands);
         void addWall(long x, long y, long w, long h);
+        std::vector<Wall*> getWalls();
         void addUnit(long x, long y, int r, long directionX, long directionY, int commandIndex, int viewingAngle);
+        std::vector<Unit*> getUnits();
         void input(InputEvent* event);
         void update();
         void draw();

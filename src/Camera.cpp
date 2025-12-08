@@ -7,6 +7,8 @@ Camera::Camera(long startX, long startY, int w, int h, sf::RenderWindow* window)
     this->_w = w;
     this->_h = h;
     this->window = window;
+
+    this->math = new Math();
 }
 
 void Camera::input(InputEvent* event)
@@ -80,7 +82,7 @@ void Camera::drawWall(long x, long y, long w, long h)
     window->draw(rectangle);
 }
 
-void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool isSelected)
+void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool isSelected, std::vector<bool> visibleMask)
 {
     int posX = x - _x;
     int posY = y - _y;
@@ -114,7 +116,7 @@ void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool
         renderTexture.draw(circle2);
     }
 
-    int s = std::sqrt(std::pow(dirX - x, 2) + std::pow(dirY - y, 2));
+    double s = math->vectorLength(dirX - x, dirY - y);
     int lx = (dirX - x) * r / s;
     int ly = (dirY - y) * r / s;
     sf::Vertex line[] = {
@@ -127,7 +129,22 @@ void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool
     renderTexture.draw(lineArray);
 
     renderTexture.display();
-    sf::Sprite sprite(renderTexture.getTexture());
+    sf::Texture texture = renderTexture.getTexture();
+
+    sf::Image image = texture.copyToImage();
+    std::vector<sf::Uint8> pixels;
+    for (int y = 0; y < r * 2; y++) {
+        for (int x = 0; x < r * 2; x++) {
+            sf::Color pixelColor = image.getPixel(x, y);
+            pixels.push_back(pixelColor.r);
+            pixels.push_back(pixelColor.g);
+            pixels.push_back(pixelColor.b);
+            pixels.push_back(visibleMask[y * r * 2 + x] ? pixelColor.a : 0);
+        }
+    }
+    texture.update(pixels.data());
+
+    sf::Sprite sprite(texture);
     sprite.setPosition(posX - r, posY - r);
     window->draw(sprite);
 }

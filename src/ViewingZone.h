@@ -4,6 +4,7 @@
 #include <vector>
 #include <tuple>
 #include "Camera.h"
+#include "Math.h"
 
 class ViewingZone
 {
@@ -12,16 +13,17 @@ class ViewingZone
         void show();
         void hide();
         void draw();
-        std::vector<bool> generateVisibleMask(long rx, long ry, long rw, long rh);
+        std::tuple<double, double, double> getAngles();
+        void setPosition(long x, long y);
+        void setDirection(long x, long y);
 
     private:
         static const long len = 500;
         bool isShow = false;
         long x, y, directionX, directionY, leftX, leftY, rightX, rightY;
         int angle;
+        double centerAngle, leftAngle, rightAngle;
         Camera* camera;
+        Math* math;
         void calc();
-        double vectorLength(double x, double y);
-        double vectorAngle(double x, double y);
-        std::tuple<double, double> vectorPoint(double a, double l);
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include <cmath>
+#include <tuple>
 #include "World.h"
 #include "Camera.h"
 #include "InputEvent.h"
@@ -21,7 +22,13 @@ class Unit
             int commandIndex,
             int viewingAngle
         );
+        std::tuple<long, long, int, long, long> getBaseParams();
+        int getCommandIndex();
         ViewingZone* getViewingZone();
+        void setPosition(long x, long y);
+        void setDirection(long x, long y);
+        void setVisibleMask(std::vector<bool> visibleMask);
+        std::vector<bool> getVisibleMask();
         void input(InputEvent* event);
         void draw();
 
@@ -32,6 +39,7 @@ class Unit
         bool isAlive = true;
         bool isSelected = false;
         ViewingZone* viewingZone;
+        std::vector<bool> visibleMask;
         Camera* camera;
         void handlerClickInside();
         void handlerClickOutside();
