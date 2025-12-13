@@ -1,16 +1,14 @@
 #include "Cursor.h"
 
-Cursor::Cursor(sf::RenderWindow* window)
+Cursor::Cursor(sf::RenderWindow* window, Engine* engine)
 {
     this->window = window;
-}
+    this->engine = engine;
 
-void Cursor::input(InputEvent* event)
-{
-    if (event->type() == InputEvent::MouseMoved) {
-        x = event->x();
-        y = event->y();
-    }
+    engine->mouseEvent.subscribe([this](int type, int x, int y) {
+        this->mouseEventHandler(type, x, y);
+        return true;
+    });
 }
 
 void Cursor::draw()
@@ -25,4 +23,13 @@ void Cursor::draw()
     };
     window->draw(lineVertices1, 2, sf::Lines);
     window->draw(lineVertices2, 2, sf::Lines);
+}
+
+bool Cursor::mouseEventHandler(int type, int x, int y)
+{
+    if (type == Engine::EventMouseMoved) {
+        this->x = x;
+        this->y = y;
+    }
+    return true;
 }

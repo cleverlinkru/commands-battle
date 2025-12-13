@@ -1,39 +1,41 @@
 #include "Panel.h"
 
-Panel::Panel(sf::RenderWindow* window)
+Panel::Panel(sf::RenderWindow* window, Engine* engine)
 {
     this->window = window;
+    this->engine = engine;
+
     this->btnPause = createButton(0);
     this->btnStep = createButton(1);
     this->btnPlay = createButton(2);
     this->btnDir = createButton(3);
     this->btnMove = createButton(4);
     this->btnFire = createButton(5);
-}
 
-InputEvent* Panel::input(InputEvent* event)
-{
-    InputEvent* _event;
-
-    _event = btnPause->input(event);
-    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonPause, 0, 0);
-
-    _event = btnStep->input(event);
-    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonStep, 0, 0);
-
-    _event = btnPlay->input(event);
-    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonPlay, 0, 0);
-
-    _event = btnDir->input(event);
-    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonDir, 0, 0);
-
-    _event = btnMove->input(event);
-    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonMove, 0, 0);
-
-    _event = btnFire->input(event);
-    if (_event->type() != 0) return new InputEvent(InputEvent::ButtonFire, 0, 0);
-
-    return event;
+    this->btnPause->clickEvent.subscribe([this]() {
+        this->buttonClickEvent.raise(Panel::EventButtonPause);
+        return false;
+    });
+    this->btnStep->clickEvent.subscribe([this]() {
+        this->buttonClickEvent.raise(Panel::EventButtonStep);
+        return false;
+    });
+    this->btnPlay->clickEvent.subscribe([this]() {
+        this->buttonClickEvent.raise(Panel::EventButtonPlay);
+        return false;
+    });
+    this->btnDir->clickEvent.subscribe([this]() {
+        this->buttonClickEvent.raise(Panel::EventButtonDir);
+        return false;
+    });
+    this->btnMove->clickEvent.subscribe([this]() {
+        this->buttonClickEvent.raise(Panel::EventButtonMove);
+        return false;
+    });
+    this->btnFire->clickEvent.subscribe([this]() {
+        this->buttonClickEvent.raise(Panel::EventButtonFire);
+        return false;
+    });
 }
 
 void Panel::draw()
@@ -62,6 +64,7 @@ Button* Panel::createButton(int index)
 {
     return new Button(
        window,
+       engine,
        3 + index * 30,
        3,
        30,
@@ -72,4 +75,9 @@ Button* Panel::createButton(int index)
        sf::Color::Black,
        index
     );
+}
+
+bool Panel::buttonClickEventHandler(int type, int x, int y)
+{
+    return true;
 }

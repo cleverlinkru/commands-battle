@@ -4,25 +4,34 @@
 #include "World.h"
 #include "WorldGenerator.h"
 #include "Camera.h"
-#include "InputEvent.h"
 #include "Panel.h"
 #include "Cursor.h"
+#include "Event.h"
 
 class Engine
 {
     public:
+        static const int EventMousePressedLeft = 1;
+        static const int EventMousePressedRight = 2;
+        static const int EventMouseReleasedLeft = 3;
+        static const int EventMouseReleasedRight = 4;
+        static const int EventMouseMoved = 5;
+
+        Event<int, int, int> mouseEvent;
+
         Engine();
         void run();
+        Camera* getCamera();
 
     private:
         sf::RenderWindow* window;
         Panel* panel;
         Cursor* cursor;
         World* world;
+        Camera* camera;
 
         void delay();
         void input();
         void update();
         void draw();
-        void handleEvent(InputEvent* event);
 };

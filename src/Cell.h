@@ -1,6 +1,8 @@
 #pragma once
+#include "Map.h"
 #include "Camera.h"
 
+class Map;
 class Camera;
 
 class Cell
@@ -9,10 +11,10 @@ class Cell
         static const int w = 50;
         static const int h = 50;
 
-        Cell(Camera* camera, long x, long y);
+        Cell(Map* map, long x, long y);
         void draw();
 
     private:
         long x, y;
-        Camera* camera;
+        Map* map;
 };

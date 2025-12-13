@@ -1,15 +1,16 @@
 #pragma once
-#include <iostream>
 #include <cmath>
 #include <vector>
 #include <tuple>
-#include "Camera.h"
+#include "Unit.h"
 #include "Math.h"
+
+class Unit;
 
 class ViewingZone
 {
     public:
-        ViewingZone(Camera* camera, long x, long y, int angle, long directionX, long directionY);
+        ViewingZone(Unit* unit, long x, long y, int angle, long directionX, long directionY);
         void show();
         void hide();
         void draw();
@@ -23,7 +24,7 @@ class ViewingZone
         long x, y, directionX, directionY, leftX, leftY, rightX, rightY;
         int angle;
         double centerAngle, leftAngle, rightAngle;
-        Camera* camera;
+        Unit* unit;
         Math* math;
 
         void calc();

@@ -4,6 +4,8 @@
 #include "Wall.h"
 #include "Math.h"
 
+class Unit;
+
 class VisibleMask
 {
     public:

@@ -1,37 +1,20 @@
 #include "Camera.h"
 
-Camera::Camera(long startX, long startY, int w, int h, sf::RenderWindow* window)
+Camera::Camera(long startX, long startY, int w, int h, sf::RenderWindow* window, Engine* engine)
 {
     this->_x = startX;
     this->_y = startY;
     this->_w = w;
     this->_h = h;
     this->window = window;
+    this->engine = engine;
 
     this->math = new Math();
-}
 
-void Camera::input(InputEvent* event)
-{
-    if (event->type() == InputEvent::MousePressedRight) {
-        isMoving = true;
-        movingX = event->x();
-        movingY = event->y();
-    }
-
-    if (event->type() == InputEvent::MouseReleasedRight) {
-        isMoving = false;
-        movingX = event->x();
-        movingY = event->y();
-    }
-
-    if (event->type() == InputEvent::MouseMoved) {
-        if (isMoving) {
-            move(movingX - event->x(), movingY - event->y());
-        }
-        movingX = event->x();
-        movingY = event->y();
-    }
+    engine->mouseEvent.subscribe([this](int type, int x, int y) {
+        this->mouseEventHandler(type, x, y);
+        return true;
+    });
 }
 
 int Camera::x()
@@ -164,4 +147,29 @@ void Camera::move(int x, int y)
 {
     this->_x += x;
     this->_y += y;
+}
+
+bool Camera::mouseEventHandler(int eventType, int eventX, int eventY)
+{
+    if (eventType == Engine::EventMousePressedRight) {
+        isMoving = true;
+        movingX = eventX;
+        movingY = eventY;
+    }
+
+    if (eventType == Engine::EventMouseReleasedRight) {
+        isMoving = false;
+        movingX = eventX;
+        movingY = eventY;
+    }
+
+    if (eventType == Engine::EventMouseMoved) {
+        if (isMoving) {
+            move(movingX - eventX, movingY - eventY);
+        }
+        movingX = eventX;
+        movingY = eventY;
+    }
+
+    return true;
 }

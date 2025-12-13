@@ -1,8 +1,8 @@
 #include "Wall.h"
 
-Wall::Wall(Camera* camera, long x, long y, long w, long h)
+Wall::Wall(World* world, long x, long y, long w, long h)
 {
-    this->camera = camera;
+    this->world = world;
     this->x = x;
     this->y = y;
     this->w = w;
@@ -16,6 +16,7 @@ std::tuple<long, long, long, long> Wall::getBaseParams()
 
 void Wall::draw()
 {
+    Camera* camera = world->getEngine()->getCamera();
     if (
         camera->x() > x + w ||
         camera->y() > y + h ||

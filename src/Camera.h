@@ -1,19 +1,18 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <cmath>
+#include "Engine.h"
 #include "Cell.h"
 #include "Math.h"
-#include "InputEvent.h"
 #include "VisibleMask.h"
 
+class Engine;
 class VisibleMask;
 
 class Camera
 {
     public:
-        Camera(long startX, long startY, int w, int h, sf::RenderWindow* window);
-        void input(InputEvent* event);
+        Camera(long startX, long startY, int w, int h, sf::RenderWindow* window, Engine* engine);
         int x();
         int y();
         int w();
@@ -26,9 +25,12 @@ class Camera
     private:
         long _x, _y, _w, _h;
         sf::RenderWindow* window;
+        Engine* engine;
+
         bool isMoving = false;
         int movingX, movingY;
         Math* math;
 
         void move(int x, int y);
+        bool mouseEventHandler(int type, int x, int y);
 };

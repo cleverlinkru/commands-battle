@@ -1,17 +1,21 @@
 #pragma once
 #include <vector>
-#include "Camera.h"
+#include "World.h"
 #include "Cell.h"
+
+class World;
+class Cell;
 
 class Map
 {
     public:
-        Map(Camera* camera, int w, int h);
+        Map(World* world, int w, int h);
         void draw();
+        World* getWorld();
 
     private:
         int _w, _h;
-        Camera* camera;
+        World* world;
         std::vector<Cell*> _cells;
 
         Cell* getCell(int x, int y);

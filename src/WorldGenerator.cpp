@@ -1,11 +1,11 @@
 #include "WorldGenerator.h"
 
-World* WorldGenerator::create(Camera* camera)
+World* WorldGenerator::create(Engine* engine)
 {
     Commands* commands = new Commands(2);
     commands->set(1);
 
-    World* world = new World(camera, 50, 30, commands);
+    World* world = new World(engine, 50, 30, commands);
 
     world->addWall(600, 600, 30, 30);
 

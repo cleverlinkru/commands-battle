@@ -1,12 +1,18 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "InputEvent.h"
+#include "Engine.h"
+#include "Event.h"
+
+class Engine;
 
 class Button
 {
     public:
+        Event<> clickEvent;
+
         Button(
             sf::RenderWindow* window,
+            Engine* engine,
             int x,
             int y,
             int w,
@@ -17,11 +23,11 @@ class Button
             sf::Color brd,
             int icon
         );
-        InputEvent* input(InputEvent* event);
         void draw();
 
     private:
         sf::RenderWindow* window;
+        Engine* engine;
         int x, y, w, h, icon;
         sf::Color bgDef;
         sf::Color bgHov;
@@ -29,6 +35,7 @@ class Button
         sf::Color brd;
         sf::Color bg;
 
+        void mouseEventHandler(int type, int x, int y);
         void drawBtn();
         void drawPause();
         void drawStep();

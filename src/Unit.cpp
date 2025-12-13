@@ -2,7 +2,6 @@
 
 Unit::Unit(
     World* world,
-    Camera* camera,
     long x,
     long y,
     int r,
@@ -13,7 +12,6 @@ Unit::Unit(
 )
 {
     this->world = world;
-    this->camera = camera;
     this->x = x;
     this->y = y;
     this->r =r;
@@ -21,9 +19,14 @@ Unit::Unit(
     this->directionY = directionY;
     this->commandIndex = commandIndex;
 
-    this->viewingZone = new ViewingZone(camera, x, y, viewingAngle, directionX, directionY);
+    this->viewingZone = new ViewingZone(this, x, y, viewingAngle, directionX, directionY);
     this->visibleMask = new VisibleMask(this);
     this->math = new Math();
+
+    world->getEngine()->mouseEvent.subscribe([this](int type, int x, int y) {
+        this->mouseEventHandler(type, x, y);
+        return true;
+    });
 }
 
 std::tuple<long, long, int, long, long> Unit::getBaseParams()
@@ -65,32 +68,10 @@ void Unit::setDirection(long x, long y)
     this->viewingZone->setDirection(x, y);
 }
 
-void Unit::input(InputEvent* event)
-{
-    if (event->type() == InputEvent::MousePressedLeft) {
-        double s = math->vectorLength(event->x() + camera->x() - x, event->y() + camera->y() - y);
-        bool inside = s < r;
-        if (inside) {
-            handlerClickInside();
-        } else {
-debug = true;
-setDirection(camera->x() + event->x(), camera->y() + event->y());
-            handlerClickOutside();
-        }
-    }
-if ((event->type() == InputEvent::MouseMoved) && debug) {
-setDirection(camera->x() + event->x(), camera->y() + event->y());
-}
-if (event->type() == InputEvent::MouseReleasedLeft) {
-debug = false;
-}
-if (event->type() == InputEvent::MousePressedRight && isSelected) {
-setPosition(camera->x() + event->x(), camera->y() + event->y());
-}
-}
-
 void Unit::draw()
 {
+    Camera* camera = world->getEngine()->getCamera();
+
     if (
         camera->x() > x + r ||
         camera->y() > y + r ||
@@ -103,6 +84,23 @@ void Unit::draw()
     visibleMask->generate();
 
     camera->drawUnit(x, y, r, directionX, directionY, commandIndex, isSelected, visibleMask);
+}
+
+bool Unit::mouseEventHandler(int eventType, int eventX, int eventY)
+{
+    Camera* camera = world->getEngine()->getCamera();
+
+    if (eventType == Engine::EventMousePressedLeft) {
+        double s = math->vectorLength(eventX + camera->x() - x, eventY + camera->y() - y);
+        bool inside = s < r;
+        if (inside) {
+            handlerClickInside();
+        } else {
+            handlerClickOutside();
+        }
+    }
+
+    return true;
 }
 
 void Unit::handlerClickInside()

@@ -1,15 +1,15 @@
 #include "Map.h"
 
-Map::Map(Camera* camera, int w, int h)
+Map::Map(World* world, int w, int h)
 {
-    this->camera = camera;
+    this->world = world;
 
     this->_w = w;
     this->_h = h;
 
     for (int y = 0; y < h; y++) {
         for (int x = 0; x < w; x++) {
-            Cell* cell = new Cell(camera, x, y);
+            Cell* cell = new Cell(this, x, y);
             _cells.push_back(cell);
         }
     }
@@ -23,6 +23,11 @@ void Map::draw()
             cell->draw();
         }
     }
+}
+
+World* Map::getWorld()
+{
+    return this->world;
 }
 
 Cell* Map::getCell(int x, int y)

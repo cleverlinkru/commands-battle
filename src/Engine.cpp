@@ -14,14 +14,12 @@ Engine::Engine()
 
     window->setMouseCursorVisible(false);
 
-    panel = new Panel(window);
-
-    cursor = new Cursor(window);
-
-    Camera* camera = new Camera(0, 0, resolution.x, resolution.y, window);
+    cursor = new Cursor(window, this);
+    panel = new Panel(window, this);
+    camera = new Camera(0, 0, resolution.x, resolution.y, window, this);
 
     WorldGenerator* wg = new WorldGenerator();
-    world = wg->create(camera);
+    world = wg->create(this);
 }
 
 void Engine::run()
@@ -33,6 +31,11 @@ void Engine::run()
         update();
         draw();
     }
+}
+
+Camera* Engine::getCamera()
+{
+    return this->camera;
 }
 
 void Engine::delay()

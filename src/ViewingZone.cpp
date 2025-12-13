@@ -1,8 +1,8 @@
 #include "ViewingZone.h"
 
-ViewingZone::ViewingZone(Camera* camera, long x, long y, int angle, long directionX, long directionY)
+ViewingZone::ViewingZone(Unit* unit, long x, long y, int angle, long directionX, long directionY)
 {
-    this->camera = camera;
+    this->unit = unit;
     this->x = x;
     this->y = y;
     this->angle = angle;
@@ -30,7 +30,7 @@ void ViewingZone::draw()
         return;
     }
 
-    camera->drawViewingZone(x, y, leftX, leftY, rightX, rightY);
+    unit->getWorld()->getEngine()->getCamera()->drawViewingZone(x, y, leftX, leftY, rightX, rightY);
 }
 
 std::tuple<double, double, double> ViewingZone::getAngles()

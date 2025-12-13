@@ -1,14 +1,15 @@
 #include "Cell.h"
 
-Cell::Cell(Camera* camera, long x, long y)
+Cell::Cell(Map* map, long x, long y)
 {
-    this->camera = camera;
+    this->map = map;
     this->x = x;
     this->y = y;
 }
 
 void Cell::draw()
 {
+    Camera* camera = map->getWorld()->getEngine()->getCamera();
     if (
         camera->x() > (x + 1) * w ||
         camera->y() > (y + 1) * h ||

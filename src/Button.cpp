@@ -2,6 +2,7 @@
 
 Button::Button(
     sf::RenderWindow* window,
+    Engine* engine,
     int x,
     int y,
     int w,
@@ -14,6 +15,7 @@ Button::Button(
 )
 {
     this->window = window;
+    this->engine = engine;
     this->x = x;
     this->y = y;
     this->w = w;
@@ -24,17 +26,22 @@ Button::Button(
     this->brd = brd;
     this->icon = icon;
     this->bg = bgDef;
+
+    engine->mouseEvent.subscribe([this](int evType, int evX, int evY) {
+        this->mouseEventHandler(evType, evX, evY);
+        return true;
+    });
 }
 
-InputEvent* Button::input(InputEvent* event)
+void Button::mouseEventHandler(int evType, int evX, int evY)
 {
     bool inside =
-        x <= event->x() &&
-        event->x() <= x + w &&
-        y <= event->y() &&
-        event->y() <= y + h;
+        x <= evX &&
+        evX <= x + w &&
+        y <= evY &&
+        evY <= y + h;
 
-    if (event->type() == InputEvent::MouseMoved) {
+    if (evType == Engine::EventMouseMoved) {
         if (inside) {
             bg = bgHov;
         } else {
@@ -42,22 +49,20 @@ InputEvent* Button::input(InputEvent* event)
         }
     }
 
-    if (event->type() == InputEvent::MousePressedLeft) {
+    if (evType == Engine::EventMousePressedLeft) {
         if (inside) {
             bg = bgCl;
-            return new InputEvent(InputEvent::ButtonPanel, 0, 0);
+            clickEvent.raise();
         }
     }
 
-    if (event->type() == InputEvent::MouseReleasedLeft) {
+    if (evType == Engine::EventMouseReleasedLeft) {
         if (inside) {
             bg = bgHov;
         } else {
             bg = bgDef;
         }
     }
-
-    return new InputEvent(0, 0, 0);
 }
 
 void Button::draw()

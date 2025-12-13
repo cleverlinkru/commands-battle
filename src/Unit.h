@@ -2,8 +2,6 @@
 #include <cmath>
 #include <tuple>
 #include "World.h"
-#include "Camera.h"
-#include "InputEvent.h"
 #include "ViewingZone.h"
 #include "VisibleMask.h"
 #include "Math.h"
@@ -16,7 +14,6 @@ class Unit
     public:
         Unit(
             World* world,
-            Camera* camera,
             long x,
             long y,
             int r,
@@ -32,7 +29,6 @@ class Unit
         VisibleMask* getVisibleMask();
         void setPosition(long x, long y);
         void setDirection(long x, long y);
-        void input(InputEvent* event);
         void draw();
 
     private:
@@ -43,10 +39,9 @@ class Unit
         bool isSelected = false;
         ViewingZone* viewingZone;
         VisibleMask* visibleMask;
-        Camera* camera;
         Math* math;
-bool debug = false;
 
+        bool mouseEventHandler(int eventType, int eventX, int eventY);
         void handlerClickInside();
         void handlerClickOutside();
         void generateVisibleMasks();
