@@ -28,6 +28,7 @@ class Button
         sf::Color bgCl;
         sf::Color brd;
         sf::Color bg;
+
         void drawBtn();
         void drawPause();
         void drawStep();

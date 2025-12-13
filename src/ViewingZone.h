@@ -25,5 +25,6 @@ class ViewingZone
         double centerAngle, leftAngle, rightAngle;
         Camera* camera;
         Math* math;
+
         void calc();
 };

@@ -20,7 +20,10 @@ Unit::Unit(
     this->directionX = directionX;
     this->directionY = directionY;
     this->commandIndex = commandIndex;
+
     this->viewingZone = new ViewingZone(camera, x, y, viewingAngle, directionX, directionY);
+    this->visibleMask = new VisibleMask(this);
+    this->math = new Math();
 }
 
 std::tuple<long, long, int, long, long> Unit::getBaseParams()
@@ -33,9 +36,19 @@ int Unit::getCommandIndex()
     return commandIndex;
 }
 
+World* Unit::getWorld()
+{
+    return world;
+}
+
 ViewingZone* Unit::getViewingZone()
 {
     return this->viewingZone;
+}
+
+VisibleMask* Unit::getVisibleMask()
+{
+    return this->visibleMask;
 }
 
 void Unit::setPosition(long x, long y)
@@ -52,28 +65,25 @@ void Unit::setDirection(long x, long y)
     this->viewingZone->setDirection(x, y);
 }
 
-void Unit::setVisibleMask(std::vector<bool> visibleMask)
-{
-    this->visibleMask = visibleMask;
-}
-
-std::vector<bool> Unit::getVisibleMask()
-{
-    return this->visibleMask;
-}
-
 void Unit::input(InputEvent* event)
 {
     if (event->type() == InputEvent::MousePressedLeft) {
-        int s = sqrt(pow(event->x() + camera->x() - x, 2) + pow(event->y() + camera->y() - y, 2));
+        double s = math->vectorLength(event->x() + camera->x() - x, event->y() + camera->y() - y);
         bool inside = s < r;
         if (inside) {
             handlerClickInside();
         } else {
+debug = true;
 setDirection(camera->x() + event->x(), camera->y() + event->y());
             handlerClickOutside();
         }
     }
+if ((event->type() == InputEvent::MouseMoved) && debug) {
+setDirection(camera->x() + event->x(), camera->y() + event->y());
+}
+if (event->type() == InputEvent::MouseReleasedLeft) {
+debug = false;
+}
 if (event->type() == InputEvent::MousePressedRight && isSelected) {
 setPosition(camera->x() + event->x(), camera->y() + event->y());
 }
@@ -89,6 +99,8 @@ void Unit::draw()
     ) {
         return;
     }
+
+    visibleMask->generate();
 
     camera->drawUnit(x, y, r, directionX, directionY, commandIndex, isSelected, visibleMask);
 }

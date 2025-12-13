@@ -7,7 +7,6 @@
 #include "InputEvent.h"
 #include "Panel.h"
 #include "Cursor.h"
-#include "VisibleMaskCreator.h"
 
 class Engine
 {
@@ -20,7 +19,6 @@ class Engine
         Panel* panel;
         Cursor* cursor;
         World* world;
-        VisibleMaskCreator* visibleMaskCreator;
 
         void delay();
         void input();

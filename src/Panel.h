@@ -17,6 +17,7 @@ class Panel
         Button* btnDir;
         Button* btnMove;
         Button* btnFire;
+
         void drawBack();
         Button* createButton(int index);
 };

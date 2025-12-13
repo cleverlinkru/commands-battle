@@ -9,6 +9,11 @@ Wall::Wall(Camera* camera, long x, long y, long w, long h)
     this->h = h;
 }
 
+std::tuple<long, long, long, long> Wall::getBaseParams()
+{
+    return std::make_tuple(x, y, w, h);
+}
+
 void Wall::draw()
 {
     if (

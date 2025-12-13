@@ -77,12 +77,12 @@ void Camera::drawWall(long x, long y, long w, long h)
     rectangle.setSize(sf::Vector2f(w, h));
     rectangle.setFillColor(sf::Color(46,27,27,255));
     rectangle.setOutlineColor(sf::Color(0,0,0,255));
-    rectangle.setOutlineThickness(3);
+    rectangle.setOutlineThickness(1);
     rectangle.setPosition(posX, posY);
     window->draw(rectangle);
 }
 
-void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool isSelected, std::vector<bool> visibleMask)
+void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool isSelected, VisibleMask* visibleMask)
 {
     int posX = x - _x;
     int posY = y - _y;
@@ -139,7 +139,7 @@ void Camera::drawUnit(long x, long y, int r, long dirX, long dirY, int com, bool
             pixels.push_back(pixelColor.r);
             pixels.push_back(pixelColor.g);
             pixels.push_back(pixelColor.b);
-            pixels.push_back(visibleMask[y * r * 2 + x] ? pixelColor.a : 0);
+            pixels.push_back(visibleMask->getValue(x, y) ? pixelColor.a : 0);
         }
     }
     texture.update(pixels.data());

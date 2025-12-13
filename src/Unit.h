@@ -5,8 +5,11 @@
 #include "Camera.h"
 #include "InputEvent.h"
 #include "ViewingZone.h"
+#include "VisibleMask.h"
+#include "Math.h"
 
 class World;
+class VisibleMask;
 
 class Unit
 {
@@ -24,11 +27,11 @@ class Unit
         );
         std::tuple<long, long, int, long, long> getBaseParams();
         int getCommandIndex();
+        World* getWorld();
         ViewingZone* getViewingZone();
+        VisibleMask* getVisibleMask();
         void setPosition(long x, long y);
         void setDirection(long x, long y);
-        void setVisibleMask(std::vector<bool> visibleMask);
-        std::vector<bool> getVisibleMask();
         void input(InputEvent* event);
         void draw();
 
@@ -39,8 +42,11 @@ class Unit
         bool isAlive = true;
         bool isSelected = false;
         ViewingZone* viewingZone;
-        std::vector<bool> visibleMask;
+        VisibleMask* visibleMask;
         Camera* camera;
+        Math* math;
+bool debug = false;
+
         void handlerClickInside();
         void handlerClickOutside();
         void generateVisibleMasks();
