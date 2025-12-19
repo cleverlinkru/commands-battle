@@ -33,6 +33,22 @@ Button::Button(
     });
 }
 
+void Button::draw()
+{
+    drawBtn();
+}
+
+void Button::setChecked(bool val)
+{
+    checked = val;
+
+    if (checked) {
+        bg = bgCl;
+    } else {
+        bg = bgDef;
+    }
+}
+
 void Button::mouseEventHandler(int evType, int evX, int evY)
 {
     bool inside =
@@ -44,6 +60,8 @@ void Button::mouseEventHandler(int evType, int evX, int evY)
     if (evType == Engine::EventMouseMoved) {
         if (inside) {
             bg = bgHov;
+        } else if (checked) {
+            bg = bgCl;
         } else {
             bg = bgDef;
         }
@@ -59,15 +77,12 @@ void Button::mouseEventHandler(int evType, int evX, int evY)
     if (evType == Engine::EventMouseReleasedLeft) {
         if (inside) {
             bg = bgHov;
+        } else if (checked) {
+            bg = bgCl;
         } else {
             bg = bgDef;
         }
     }
-}
-
-void Button::draw()
-{
-    drawBtn();
 }
 
 void Button::drawBtn()

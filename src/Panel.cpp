@@ -38,6 +38,23 @@ Panel::Panel(sf::RenderWindow* window, Engine* engine)
     });
 }
 
+void Panel::setChecked(int buttonIndex, bool val)
+{
+    if (buttonIndex == 1) {
+        btnPause->setChecked(val);
+    } else if (buttonIndex == 2) {
+        btnStep->setChecked(val);
+    } else if (buttonIndex == 3) {
+        btnPlay->setChecked(val);
+    } else if (buttonIndex == 4) {
+        btnDir->setChecked(val);
+    } else if (buttonIndex == 5) {
+        btnMove->setChecked(val);
+    } else if (buttonIndex == 6) {
+        btnFire->setChecked(val);
+    }
+}
+
 void Panel::draw()
 {
     drawBack();

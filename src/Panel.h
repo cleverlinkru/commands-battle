@@ -16,13 +16,15 @@ class Panel
         static const int EventButtonMove = 5;
         static const int EventButtonFire = 6;
 
+        Event<int> buttonClickEvent;
+
         Panel(sf::RenderWindow* window, Engine* engine);
+        void setChecked(int buttonIndex, bool val);
         void draw();
 
     private:
         sf::RenderWindow* window;
         Engine* engine;
-        Event<int> buttonClickEvent;
         Button* btnPause;
         Button* btnStep;
         Button* btnPlay;

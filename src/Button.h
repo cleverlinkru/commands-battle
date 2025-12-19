@@ -24,6 +24,7 @@ class Button
             int icon
         );
         void draw();
+        void setChecked(bool val);
 
     private:
         sf::RenderWindow* window;
@@ -34,6 +35,7 @@ class Button
         sf::Color bgCl;
         sf::Color brd;
         sf::Color bg;
+        bool checked = false;
 
         void mouseEventHandler(int type, int x, int y);
         void drawBtn();

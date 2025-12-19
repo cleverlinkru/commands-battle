@@ -8,6 +8,7 @@
 
 class Engine;
 class Wall;
+class Unit;
 
 class World
 {

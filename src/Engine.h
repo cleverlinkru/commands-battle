@@ -7,6 +7,7 @@
 #include "Panel.h"
 #include "Cursor.h"
 #include "Event.h"
+#include "Ticker.h"
 
 class Engine
 {
@@ -22,6 +23,7 @@ class Engine
         Engine();
         void run();
         Camera* getCamera();
+        Panel* getPanel();
 
     private:
         sf::RenderWindow* window;
@@ -29,6 +31,7 @@ class Engine
         Cursor* cursor;
         World* world;
         Camera* camera;
+        Ticker* ticker;
 
         void delay();
         void input();

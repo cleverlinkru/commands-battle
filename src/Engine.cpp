@@ -17,6 +17,7 @@ Engine::Engine()
     cursor = new Cursor(window, this);
     panel = new Panel(window, this);
     camera = new Camera(0, 0, resolution.x, resolution.y, window, this);
+    ticker = new Ticker(this);
 
     WorldGenerator* wg = new WorldGenerator();
     world = wg->create(this);
@@ -36,6 +37,11 @@ void Engine::run()
 Camera* Engine::getCamera()
 {
     return this->camera;
+}
+
+Panel* Engine::getPanel()
+{
+    return this->panel;
 }
 
 void Engine::delay()
