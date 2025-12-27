@@ -29,7 +29,9 @@ std::vector<Unit*> World::getUnits()
 
 void World::World::update()
 {
-
+    for (Unit* unit : units) {
+        unit->update();
+    }
 }
 
 void World::draw()

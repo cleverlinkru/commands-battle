@@ -15,6 +15,7 @@ class Panel
         static const int EventButtonDir = 4;
         static const int EventButtonMove = 5;
         static const int EventButtonFire = 6;
+        static const int EventButtonViewingZone = 7;
 
         Event<int> buttonClickEvent;
 
@@ -31,8 +32,8 @@ class Panel
         Button* btnDir;
         Button* btnMove;
         Button* btnFire;
+        Button* btnViewingZone;
 
         void drawBack();
         Button* createButton(int index);
-        bool buttonClickEventHandler(int type, int x, int y);
 };

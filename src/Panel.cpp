@@ -11,6 +11,7 @@ Panel::Panel(sf::RenderWindow* window, Engine* engine)
     this->btnDir = createButton(3);
     this->btnMove = createButton(4);
     this->btnFire = createButton(5);
+    this->btnViewingZone = createButton(6);
 
     this->btnPause->clickEvent.subscribe([this]() {
         this->buttonClickEvent.raise(Panel::EventButtonPause);
@@ -36,6 +37,10 @@ Panel::Panel(sf::RenderWindow* window, Engine* engine)
         this->buttonClickEvent.raise(Panel::EventButtonFire);
         return false;
     });
+    this->btnViewingZone->clickEvent.subscribe([this]() {
+        this->buttonClickEvent.raise(Panel::EventButtonViewingZone);
+        return false;
+    });
 }
 
 void Panel::setChecked(int buttonIndex, bool val)
@@ -52,6 +57,8 @@ void Panel::setChecked(int buttonIndex, bool val)
         btnMove->setChecked(val);
     } else if (buttonIndex == 6) {
         btnFire->setChecked(val);
+    } else if (buttonIndex == 7) {
+        btnViewingZone->setChecked(val);
     }
 }
 
@@ -64,6 +71,7 @@ void Panel::draw()
     btnDir->draw();
     btnMove->draw();
     btnFire->draw();
+    btnViewingZone->draw();
 }
 
 void Panel::drawBack()
@@ -92,9 +100,4 @@ Button* Panel::createButton(int index)
        sf::Color::Black,
        index
     );
-}
-
-bool Panel::buttonClickEventHandler(int type, int x, int y)
-{
-    return true;
 }

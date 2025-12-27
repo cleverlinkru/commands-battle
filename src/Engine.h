@@ -32,6 +32,7 @@ class Engine
         World* world;
         Camera* camera;
         Ticker* ticker;
+        Event<> testEvent;
 
         void delay();
         void input();

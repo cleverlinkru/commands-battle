@@ -2,6 +2,7 @@
 #include <cmath>
 #include <tuple>
 #include "World.h"
+#include "Panel.h"
 #include "ViewingZone.h"
 #include "VisibleMask.h"
 #include "Math.h"
@@ -29,7 +30,9 @@ class Unit
         VisibleMask* getVisibleMask();
         void setPosition(long x, long y);
         void setDirection(long x, long y);
+        bool getIsSelected();
         void draw();
+        void update();
 
     private:
         World* world;
@@ -37,11 +40,13 @@ class Unit
         int r, commandIndex;
         bool isAlive = true;
         bool isSelected = false;
+        bool isViewingZoneVisible = false;
         ViewingZone* viewingZone;
         VisibleMask* visibleMask;
         Math* math;
 
         bool mouseEventHandler(int eventType, int eventX, int eventY);
+        bool panelButtonClickEventHandler(int buttonIndex);
         void handlerClickInside();
         void handlerClickOutside();
         void generateVisibleMasks();

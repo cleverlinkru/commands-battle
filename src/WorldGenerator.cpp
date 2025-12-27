@@ -10,6 +10,7 @@ World* WorldGenerator::create(Engine* engine)
     world->addWall(600, 600, 30, 30);
 
     world->addUnit(300, 300, 25, 800, 800, 1, 60);
+    world->addUnit(500, 500, 25, 800, 800, 1, 60);
     world->addUnit(700, 500, 25, 1000, 1000, 2, 60);
 
     return world;

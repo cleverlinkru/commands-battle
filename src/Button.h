@@ -37,12 +37,12 @@ class Button
         sf::Color bg;
         bool checked = false;
 
-        void mouseEventHandler(int type, int x, int y);
-        void drawBtn();
+        bool mouseEventHandler(int type, int x, int y);
         void drawPause();
         void drawStep();
         void drawPlay();
         void drawDir();
         void drawMove();
         void drawFire();
+        void drawViewingZone();
 };

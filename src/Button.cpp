@@ -28,64 +28,11 @@ Button::Button(
     this->bg = bgDef;
 
     engine->mouseEvent.subscribe([this](int evType, int evX, int evY) {
-        this->mouseEventHandler(evType, evX, evY);
-        return true;
+        return this->mouseEventHandler(evType, evX, evY);
     });
 }
 
 void Button::draw()
-{
-    drawBtn();
-}
-
-void Button::setChecked(bool val)
-{
-    checked = val;
-
-    if (checked) {
-        bg = bgCl;
-    } else {
-        bg = bgDef;
-    }
-}
-
-void Button::mouseEventHandler(int evType, int evX, int evY)
-{
-    bool inside =
-        x <= evX &&
-        evX <= x + w &&
-        y <= evY &&
-        evY <= y + h;
-
-    if (evType == Engine::EventMouseMoved) {
-        if (inside) {
-            bg = bgHov;
-        } else if (checked) {
-            bg = bgCl;
-        } else {
-            bg = bgDef;
-        }
-    }
-
-    if (evType == Engine::EventMousePressedLeft) {
-        if (inside) {
-            bg = bgCl;
-            clickEvent.raise();
-        }
-    }
-
-    if (evType == Engine::EventMouseReleasedLeft) {
-        if (inside) {
-            bg = bgHov;
-        } else if (checked) {
-            bg = bgCl;
-        } else {
-            bg = bgDef;
-        }
-    }
-}
-
-void Button::drawBtn()
 {
     sf::RectangleShape rectangle;
     rectangle.setSize(sf::Vector2f(w, h));
@@ -107,7 +54,59 @@ void Button::drawBtn()
         drawMove();
     } else if (icon == 5) {
         drawFire();
+    } else if (icon == 6) {
+        drawViewingZone();
     }
+}
+
+void Button::setChecked(bool val)
+{
+    checked = val;
+
+    if (checked) {
+        bg = bgCl;
+    } else {
+        bg = bgDef;
+    }
+}
+
+bool Button::mouseEventHandler(int evType, int evX, int evY)
+{
+    bool inside =
+        x <= evX &&
+        evX <= x + w &&
+        y <= evY &&
+        evY <= y + h;
+
+    if (evType == Engine::EventMouseMoved) {
+        if (inside) {
+            bg = bgHov;
+        } else if (checked) {
+            bg = bgCl;
+        } else {
+            bg = bgDef;
+        }
+    }
+
+    if (evType == Engine::EventMousePressedLeft) {
+        if (inside) {
+            bg = bgCl;
+            clickEvent.raise();
+            return false;
+        }
+    }
+
+    if (evType == Engine::EventMouseReleasedLeft) {
+        if (inside) {
+            bg = bgHov;
+        } else if (checked) {
+            bg = bgCl;
+        } else {
+            bg = bgDef;
+        }
+    }
+
+    return true;
 }
 
 void Button::drawPause()
@@ -197,5 +196,19 @@ void Button::drawFire()
     window->draw(rectangle);
     rectangle.setSize(sf::Vector2f(w - 7, 3));
     rectangle.setPosition(x + 3, y + h / 2 - 1);
+    window->draw(rectangle);
+}
+
+void Button::drawViewingZone()
+{
+    sf::RectangleShape rectangle;
+    rectangle.setFillColor(sf::Color::Black);
+    rectangle.setSize(sf::Vector2f(3, h - 4));
+    rectangle.setPosition(x + 4, y + 2);
+    rectangle.setRotation(-20);
+    window->draw(rectangle);
+    rectangle.setSize(sf::Vector2f(3, h - 4));
+    rectangle.setPosition(x + w - 7, y + 2);
+    rectangle.setRotation(20);
     window->draw(rectangle);
 }

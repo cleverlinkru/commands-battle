@@ -23,9 +23,12 @@ Unit::Unit(
     this->visibleMask = new VisibleMask(this);
     this->math = new Math();
 
+    world->getEngine()->getPanel()->buttonClickEvent.subscribe([this](int buttonIndex) {
+        return this->panelButtonClickEventHandler(buttonIndex);
+    });
+
     world->getEngine()->mouseEvent.subscribe([this](int type, int x, int y) {
-        this->mouseEventHandler(type, x, y);
-        return true;
+        return this->mouseEventHandler(type, x, y);
     });
 }
 
@@ -68,6 +71,11 @@ void Unit::setDirection(long x, long y)
     this->viewingZone->setDirection(x, y);
 }
 
+bool Unit::getIsSelected()
+{
+    return isSelected;
+}
+
 void Unit::draw()
 {
     Camera* camera = world->getEngine()->getCamera();
@@ -84,6 +92,11 @@ void Unit::draw()
     visibleMask->generate();
 
     camera->drawUnit(x, y, r, directionX, directionY, commandIndex, isSelected, visibleMask);
+}
+
+void Unit::update()
+{
+
 }
 
 bool Unit::mouseEventHandler(int eventType, int eventX, int eventY)
@@ -103,6 +116,21 @@ bool Unit::mouseEventHandler(int eventType, int eventX, int eventY)
     return true;
 }
 
+bool Unit::panelButtonClickEventHandler(int buttonIndex)
+{
+    if (isSelected && buttonIndex == Panel::EventButtonViewingZone) {
+        isViewingZoneVisible = !isViewingZoneVisible;
+        world->getEngine()->getPanel()->setChecked(Panel::EventButtonViewingZone, isViewingZoneVisible);
+        if (isViewingZoneVisible) {
+            viewingZone->show();
+        } else {
+            viewingZone->hide();
+        }
+    }
+
+    return true;
+}
+
 void Unit::handlerClickInside()
 {
     if (world->getCommands()->current() > 0 && world->getCommands()->current() != commandIndex) {
@@ -110,7 +138,14 @@ void Unit::handlerClickInside()
     }
 
     isSelected = true;
-    viewingZone->show();
+
+    if (isViewingZoneVisible) {
+        viewingZone->show();
+    } else {
+        viewingZone->hide();
+    }
+    world->getEngine()->getPanel()->setChecked(Panel::EventButtonViewingZone, isViewingZoneVisible);
+
     world->getCommands()->set(commandIndex);
 }
 
@@ -118,4 +153,20 @@ void Unit::handlerClickOutside()
 {
     isSelected = false;
     viewingZone->hide();
+
+    if (!isViewingZoneVisible) {
+        return;
+    }
+
+    bool hasSelected = false;
+    for (Unit* unit : world->getUnits()) {
+        if (unit->getIsSelected()) {
+            hasSelected = true;
+            break;
+        }
+    }
+
+    if (!hasSelected) {
+        world->getEngine()->getPanel()->setChecked(Panel::EventButtonViewingZone, false);
+    }
 }
